@@ -69,8 +69,8 @@ class Node:
                 self.right.delete(0, length - (self.leftLength - offset))
                 self.leftLength = leftLength
             else:
-                length = self.left.delete(offset, length)
-                self.leftLength = length
+                leftLength = self.left.delete(offset, length)
+                self.leftLength = leftLength
 
 
         return self.leftLength

@@ -1,6 +1,7 @@
 import unittest
-from rope import Rope
+from random import choice
 
+from rope import Rope
 
 class TestRopeMethods(unittest.TestCase):
     def test_that_the_string_initialises_as_expected(self):
@@ -34,5 +35,18 @@ class TestRopeMethods(unittest.TestCase):
         testRope.insert(1, "i, what's your name? My name is Benj")
         self.assertEqual(str(testRope), "Hi, what's your name? My name is Benji")
     
+    def test_that_the_rope_works_with_a_gigantic_string(self):
+        testStr = "".join(choice("abcdefghijklmnopqrstuvwxyz") for i in range(100000))
+        testRope = Rope(testStr)
+        self.assertEqual(str(testRope), testStr)
+
+        testRope.insert(3000, "HELLO")
+        testStr = testStr[:3000] + "HELLO" + testStr[3000:]
+        self.assertEqual(str(testRope), testStr)
+
+        testRope.delete(1000, 1000)
+        testStr = testStr[:1000] + testStr[2000:]
+        self.assertEqual(str(testRope), testStr)
+
 if __name__ == '__main__':
     unittest.main()
