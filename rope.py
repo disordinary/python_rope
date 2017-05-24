@@ -1,16 +1,23 @@
 import math
+# A Rope is a way of storing very large strings in a binary tree.
+# The datastructure of a rope has it that the branches only store the length of the nodes on it's left hand side.
 
 class Rope:
     leftLength = 0
     value = ""
     isNotBalanced = False
-
+    
     def __init__(self, string, optimalLength=1000, minLength=500, maxLength=1500, isRoot=True):
         halfWay = int(math.ceil(len(string) / 2))
+
         self.isRoot = isRoot
+
+        # These are constants which are used to decide whether or not to re-build the tree
         self.OPTIMAL_LENGTH = optimalLength
         self.MIN_LENGTH = minLength
         self.MAX_LENGTH = maxLength
+
+        # We build the rope by splitting the string in two until we get to the desired length
         if halfWay > self.OPTIMAL_LENGTH:
             self.left = Rope(string[:halfWay], self.OPTIMAL_LENGTH, self.MIN_LENGTH, self.MAX_LENGTH, False)
             self.right = Rope(string[halfWay:], self.OPTIMAL_LENGTH, self.MIN_LENGTH, self.MAX_LENGTH,  False)
@@ -93,7 +100,7 @@ class Rope:
             else:
                 self.value = string
 
-
+# Checks to see if the length provided is within the desired range
 def checkIfOptimalLength(length, minimum_length, maximum_length):
     if length > minimum_length and length < maximum_length:
         return True
