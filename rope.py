@@ -1,19 +1,19 @@
 import math
-OPTIMAL_LENGTH = 10 # would normally be a large number like 1000
-MIN_LENGTH = 5 # would normally be a large (but smaller than above) number like 500
-MAX_LENGTH = 15 # would normally be a large (and bigger than above) number like 1500
 
 class Rope:
     leftLength = 0
     value = ""
     isNotBalanced = False
 
-    def __init__(self, string, isRoot=True):
+    def __init__(self, string, optimalLength=1000, minLength=500, maxLength=1500, isRoot=True):
         halfWay = int(math.ceil(len(string) / 2))
         self.isRoot = isRoot
-        if halfWay > OPTIMAL_LENGTH:
-            self.left = Rope(string[:halfWay], False)
-            self.right = Rope(string[halfWay:], False)
+        self.OPTIMAL_LENGTH = optimalLength
+        self.MIN_LENGTH = minLength
+        self.MAX_LENGTH = maxLength
+        if halfWay > self.OPTIMAL_LENGTH:
+            self.left = Rope(string[:halfWay], self.OPTIMAL_LENGTH, self.MIN_LENGTH, self.MAX_LENGTH, False)
+            self.right = Rope(string[halfWay:], self.OPTIMAL_LENGTH, self.MIN_LENGTH, self.MAX_LENGTH,  False)
             self.leftLength = halfWay
         else:
             self.value = string
@@ -35,7 +35,7 @@ class Rope:
             value = self.value[:offset] + string + self.value[offset:]
             self.value = value
             length = len(value)
-            if not checkIfOptimalLength(length, MIN_LENGTH, MAX_LENGTH) and not self.isRoot:
+            if not checkIfOptimalLength(length, self.MIN_LENGTH, self.MAX_LENGTH) and not self.isRoot:
                 self.isNotBalanced = True
             return length
         else:
@@ -52,20 +52,17 @@ class Rope:
     def delete(self, offset, length):
         if self.value != "":
             value = self.value[:offset] + self.value[length + offset:]
-            
             self.value = value
             length = len(value)
-            if not checkIfOptimalLength(length, MIN_LENGTH, MAX_LENGTH) and not self.isRoot:
+            if not checkIfOptimalLength(length, self.MIN_LENGTH, self.MAX_LENGTH) and not self.isRoot:
                 self.isNotBalanced = True
             return length
         else:
-            print offset, length, self.leftLength
             if offset > self.leftLength:
                 self.right.delete(offset - self.leftLength, length)
             elif offset + length > self.leftLength:
-                print "HERE", length, self.leftLength
                 leftLength = self.left.delete(offset, self.leftLength - offset)
-                self.right.delete(0, length - self.leftLength)
+                self.right.delete(0, length - (self.leftLength - offset))
                 self.leftLength = leftLength
             else:
                 length = self.left.delete(offset, length)
@@ -88,9 +85,9 @@ class Rope:
         if not self.amIBalanced():
             string = self.__str__()
             halfWay = int(math.ceil(len(string) / 2))
-            if halfWay > OPTIMAL_LENGTH:
-                self.left = Rope(string[:halfWay], False)
-                self.right = Rope(string[halfWay:], False)
+            if halfWay > self.OPTIMAL_LENGTH:
+                self.left = Rope(string[:halfWay], self.OPTIMAL_LENGTH, self.MIN_LENGTH, self.MAX_LENGTH, False)
+                self.right = Rope(string[halfWay:], self.OPTIMAL_LENGTH, self.MIN_LENGTH, self.MAX_LENGTH, False)
                 self.leftLength = halfWay
                 self.value = ""
             else:
