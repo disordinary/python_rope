@@ -5,7 +5,7 @@ import math
 class Rope:
     leftLength = 0
     value = ""
-    isNotBalanced = False
+    isBalanced = True
     
     def __init__(self, string, optimalLength=1000, minLength=500, maxLength=1500, isRoot=True):
         halfWay = int(math.ceil(len(string) / 2))
@@ -29,7 +29,7 @@ class Rope:
         if self.value != "":
             return self.value
         else:
-            return self.left.__str__() + self.right.__str__()
+            return str(self.left) + str(self.right)
     
     def __len__(self):
         if self.value != "":
@@ -43,7 +43,7 @@ class Rope:
             self.value = value
             length = len(value)
             if not checkIfOptimalLength(length, self.MIN_LENGTH, self.MAX_LENGTH) and not self.isRoot:
-                self.isNotBalanced = True
+                self.isBalanced = False
             return length
         else:
             if offset > self.leftLength:
@@ -62,7 +62,7 @@ class Rope:
             self.value = value
             length = len(value)
             if not checkIfOptimalLength(length, self.MIN_LENGTH, self.MAX_LENGTH) and not self.isRoot:
-                self.isNotBalanced = True
+                self.isBalanced = False
             return length
         else:
             if offset > self.leftLength:
@@ -82,7 +82,7 @@ class Rope:
 
     def amIBalanced(self):
         if self.value != "":
-            return not self.isNotBalanced
+            return self.isBalanced
         else:
             if self.left.amIBalanced() and self.right.amIBalanced():
                 return True
@@ -90,7 +90,7 @@ class Rope:
 
     def rebalance(self):
         if not self.amIBalanced():
-            string = self.__str__()
+            string = str(self)
             halfWay = int(math.ceil(len(string) / 2))
             if halfWay > self.OPTIMAL_LENGTH:
                 self.left = Rope(string[:halfWay], self.OPTIMAL_LENGTH, self.MIN_LENGTH, self.MAX_LENGTH, False)
@@ -104,5 +104,4 @@ class Rope:
 def checkIfOptimalLength(length, minimum_length, maximum_length):
     if length > minimum_length and length < maximum_length:
         return True
-    
     return False
