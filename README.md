@@ -4,10 +4,12 @@ A Rope is a datastructure to store a very long string in a binary tree made up o
 https://en.wikipedia.org/wiki/Rope_(data_structure)
 
 ## Usage
-The rope constructor contains requires a string, it also has the optional `optimalLength`, `minLength`, and `maxLength` arguments.
+The rope constructor requires a string, it also has the optional `optimalLength`, `minLength`, and `maxLength` arguments.
 
 The `optimalLength` argument is the length that we consider optimal for a string, it defaults to 1000 but that is an arbitrary number and is not backed by any benchmarking.
-The `minLength` argument is the minumum length that a leaf can be before it triggers a re-balance, once again it is a number that has been plucked from the air and defualts to 500.
+
+The `minLength` argument is the minumum length that a leaf can be before it triggers a re-balance, once again it is a number that has been plucked from thin air and defualts to 500.
+
 The `maxLength` argument is the maximum length that a leaf node can be before it triggers a re-balance, as with the `minLength` it is an arbitrary number set at 1500.
 
 ```Python
@@ -23,7 +25,7 @@ The Rope itself has `insert` and `delete` methods.
 bigString.insert(3000, "FOO")
 ```
 
-`Delete` takes an offset within the long string and a lenght to delete.
+`Delete` takes an offset within the long string and a length to delete.
 
 ```Python
 bigString.delete(3000, 3)
