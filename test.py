@@ -7,9 +7,9 @@ class TestRopeMethods(unittest.TestCase):
         testStr = "the quick brown fox jumped over the lazy dog"
         testRope = Rope(testStr, 10, 5, 15)
         self.assertEqual(str(testRope), testStr)
-        self.assertEqual(testRope.leftLength, 22)
-        self.assertEqual(testRope.left.leftLength, 11)
-        self.assertEqual(testRope.left.left.value, "the quick b")
+        self.assertEqual(testRope.node.leftLength, 22)
+        self.assertEqual(testRope.node.left.leftLength, 11)
+        self.assertEqual(testRope.node.left.left.value, "the quick b")
     
     def test_that_inserts_happen_as_expected_and_rebalances(self):
         testStr = "the quick brown fox jumped over the lazy dog"
